@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_notes_app/pages/login_page.dart';
+import 'package:flutter_notes_app/utils/user_shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await UserSharedPreferences.init();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
