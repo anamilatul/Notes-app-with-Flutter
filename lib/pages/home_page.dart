@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_notes_app/pages/form_page.dart';
 import 'package:flutter_notes_app/widgets/card_widget.dart';
 import '../models/note.dart';
 
@@ -58,6 +59,14 @@ class _HomePageState extends State<HomePage> {
           },
           itemCount: notes.length,
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+            return const FormPage();
+          }));
+        },
+        child: const Icon(Icons.note_add),
       ),
     );
   }
