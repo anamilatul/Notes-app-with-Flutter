@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_notes_app/pages/detail_page.dart';
 import 'package:flutter_notes_app/pages/form_page.dart';
 import 'package:flutter_notes_app/utils/notes_database.dart';
 import 'package:flutter_notes_app/widgets/card_widget.dart';
@@ -78,9 +79,19 @@ class _HomePageState extends State<HomePage> {
                   crossAxisSpacing: 8,
                 ),
                 itemBuilder: (context, index) {
-                  return CardWidget(
-                    index: index,
-                    note: notes[index],
+                  return InkWell(
+                    onTap: () async {
+                      await Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          return DetailPage(note: notes[index]);
+                        }),
+                      );
+                      refreshNote();
+                    },
+                    child: CardWidget(
+                      index: index,
+                      note: notes[index],
+                    ),
                   );
                 },
                 itemCount: notes.length,

@@ -44,7 +44,7 @@ class NotesDatabase {
     return note.copyWith(id: id); //id nya refresh with newest id
   }
 
-  Future<Note> readData(int id) async {
+  Future<Note> readNote(int id) async {
     //read for single data
     final db = await instance.database;
     final maps = await db.query(tableName,

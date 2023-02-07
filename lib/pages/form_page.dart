@@ -1,9 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:flutter_notes_app/utils/notes_database.dart';
+
 import '../models/note.dart';
 
 class FormPage extends StatefulWidget {
-  const FormPage({super.key});
+  final Note? note;
+  const FormPage({
+    Key? key,
+    this.note,
+  }) : super(key: key);
 
   @override
   State<FormPage> createState() => _FormPageState();
@@ -12,6 +19,15 @@ class FormPage extends StatefulWidget {
 class _FormPageState extends State<FormPage> {
   TextEditingController titleControler = TextEditingController();
   TextEditingController descControler = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.note != null) {
+      titleControler.text = widget.note!.title;
+      descControler.text = widget.note!.description;
+    }
+    super.initState();
+  }
 
   Future addNote() async {
     final note = Note(
@@ -23,6 +39,15 @@ class _FormPageState extends State<FormPage> {
     Navigator.of(context).pop();
   }
 
+  Future updateNote() async {
+    final note = widget.note!.copyWith(
+      title: titleControler.text,
+      description: descControler.text,
+    );
+    await NotesDatabase.instance.update(note);
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +55,13 @@ class _FormPageState extends State<FormPage> {
         title: const Text('Form'),
         actions: [
           InkWell(
-            onTap: addNote,
+            onTap: () {
+              if (widget.note != null) {
+                updateNote();
+              } else {
+                addNote();
+              }
+            },
             child: const Icon(Icons.save),
           ),
           const SizedBox(
